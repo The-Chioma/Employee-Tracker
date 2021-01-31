@@ -90,9 +90,15 @@ const addDepartment = () => {
         type: "input",
         message: "Please enter name of the department",
     })
-    // .then((response) => {
-        
-    // })
+    .then(function(response) {
+        connection.query("INSERT INTO department SET ?", 
+        {name: response.name},
+        viewDepartments(),
+        function(err, res) {
+            if (err) throw err;
+            connection.end();
+        });
+    })
 
     // ])
 }
