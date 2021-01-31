@@ -48,113 +48,134 @@ const firstQuestions = [
   },
 ];
 
-
 // inquirer.prompt(firstQuestions)
 
 const init = () =>
   inquirer.prompt(firstQuestions).then(function (response) {
     switch (response.action) {
       case "Add a new Department":
-            addDepartment();
-            break;
+        addDepartment();
+        break;
       case "Add a new Role":
-            addRole();
-            break;
+        addRole();
+        break;
       case "Add a new Employee":
-            addEmployee();
-            break;
+        addEmployee();
+        break;
       case "View all Departments":
-            viewDepartments();
-            break;
+        viewDepartments();
+        break;
       case "View all Roles":
-            viewRoles();
-            break;
+        viewRoles();
+        break;
       case "View all Employees":
-            viewEmployees();
-            break;
+        viewEmployees();
+        break;
       case "View Total Budget":
-            viewBudget();
-            break;
+        viewBudget();
+        break;
       case "Update Roles":
-            updateRole();
-            break;
+        updateRole();
+        break;
       case "Exit":
-            connection.end();
-            break;
+        connection.end();
+        break;
     }
   });
 
 const addDepartment = () => {
-    inquirer.prompt({
-        name: "name",
-        type: "input",
-        message: "Please enter name of the department",
+  inquirer
+    .prompt({
+      name: "name",
+      type: "input",
+      message: "Please enter name of the department",
     })
-    .then(function(response) {
-        connection.query("INSERT INTO department SET ?", 
-        {name: response.name},
+    .then(function (response) {
+      connection.query(
+        "INSERT INTO department SET ?",
+        { name: response.name },
         viewDepartments(),
-        function(err, res) {
-            if (err) throw err;
-            connection.end();
-        });
-    })
+        function (err, res) {
+          if (err) throw err;
+          connection.end();
+        }
+      );
+    });
+};
+const addRole = () => {
+  inquirer.prompt([
+    {
+      name: "title",
+      type: "input",
+      message: "Please enter title of the role",
+    },
+    {
+      name: "salary",
+      type: "input",
+      message: "Please enter the salary amount",
+    },
+    {
+      name: "department_id",
+      type: "input",
+      message: "Please enter the department id number",
+    },
+  ])
+  .then((response) => { console.log(response)
+    connection.query(
+        "INSERT INTO role SET ?",
+        { title: response.title,
+          salary: response.salary,
+          department_id: response.department_id,},
+        viewRoles(),
+        function (err, res) {
+          if (err) throw err;
+          connection.end();
+        }
+      );
+  })
+};
 
-    // ])
-}
-const addRole = () =>{
-    inquirer.prompt({
-        name: "name",
-        type: "input",
-        message: "Please enter name of the role",
-    })
-    // .then((response) => {
-        
-    // })
+const addEmployee = () => {
+  inquirer.prompt({
+    name: "name",
+    type: "input",
+    message: "Please enter name of the employee",
+  });
+  // .then((response) => {
 
-    // ])
-}
-const addEmployee = () =>{
-    inquirer.prompt({
-        name: "name",
-        type: "input",
-        message: "Please enter name of the employee",
-    })
-    // .then((response) => {
-        
-    // })
+  // })
 
-    // ])
-}
-const viewDepartments =()=>{
-    connection.query("SELECT * FROM department", function(err, res) {
-        if (err) throw err;
-        console.table(res);
-        connection.end();
-    });
-}
-const viewRoles =()=>{
-    connection.query("SELECT * FROM role", function(err, res) {
-        if (err) throw err;
-        console.table(res);
-        connection.end();
-    });
-}
-const viewEmployees =()=>{
-    connection.query("SELECT * FROM employee", function(err, res) {
-        if (err) throw err;
-        console.table(res);
-        connection.end();
-    });
-}
-const viewBudget =()=>{
-    connection.query("SELECT SUM (salary) FROM role", function(err, res) {
-        if (err) throw err;
-        console.table(res);
-        connection.end();
-    });
-}
-const updateRole =()=>{}
+  // ])
+};
+const viewDepartments = () => {
+  connection.query("SELECT * FROM department", function (err, res) {
+    if (err) throw err;
+    console.table(res);
+    connection.end();
+  });
+};
+const viewRoles = () => {
+  connection.query("SELECT * FROM role", function (err, res) {
+    if (err) throw err;
+    console.table(res);
+    connection.end();
+  });
+};
+const viewEmployees = () => {
+  connection.query("SELECT * FROM employee", function (err, res) {
+    if (err) throw err;
+    console.table(res);
+    connection.end();
+  });
+};
+const viewBudget = () => {
+  connection.query("SELECT SUM (salary) FROM role", function (err, res) {
+    if (err) throw err;
+    console.table(res);
+    connection.end();
+  });
+};
+const updateRole = () => {};
 
 // Start our server so that it can begin listening to client requests.
 app.listen(PORT, function () {
