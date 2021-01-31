@@ -1,37 +1,62 @@
 const inquirer = require("inquirer");
+const server = require("./server")
 
-const questions = [
-    {
-        type: "list",
-        name: "answer",
-        message: "Welcome to the Employee Tracker! What would you like to do?",
-        choices: [
-            {
-                name: "Add a new Department",
-                value: "add_department",
-            },
-            {
-                name: "Add a new Role",
-                value: "add_role",
-            },
-            {
-                name: "Add a new Employee",
-                value: "add_employee",
-            },
-            {
-                name: "View all Departments",
-                value: "view_department",
-            },
-            {
-                name: "View all Roles",
-                value: "view_roles",
-            },
-            {
-                name: "View all Employees",
-                value: "view_employees"
-            }
-        ],
-    },
-]
+const firstQuestions = [
+  {
+    type: "list",
+    name: "questions",
+    message: "Welcome to the Employee Tracker! What would you like to do?",
+    choices: [
+      "Add a new Department",
+      "Add a new Role",
+      "Add a new Employee",
+      "View all Departments",
+      "View all Roles",
+      "View all Employees",
+      "View Total Budget",
+      "Update Roles",
+      "Exit"
+    ],
+  },
+];
+// inquirer.prompt(firstQuestions)
+const addDepartment =()=>{}
+const addRole =()=>{}
+const addEmployee =()=>{}
+const viewDepartments =()=>{}
+const viewRoles =()=>{}
+const viewEmployees =()=>{}
+const viewBudget =()=>{}
+const updateRole =()=>{}
 
-inquirer.prompt(questions)
+const init = () => inquirer.prompt(firstQuestions).then((response) => {
+    switch (response.firstQuestions) {
+        case "Add a new Department":
+            addDepartment();
+            break;
+        case "Add a new Role":
+            addRole();
+            break;
+        case "Add a new Employee":
+            addEmployee();
+            break;
+        case "View all Departments":
+            viewDepartments();
+            break;
+        case "View all Roles":
+            viewRoles();
+            break;
+        case "View all Employees":
+            viewEmployees();
+            break;
+        case "View Total Budget":
+            viewBudget();
+            break;
+        case "Update Roles":
+            updateRole();
+            break;
+        case "Exit":
+            return;
+    }
+})
+init();
